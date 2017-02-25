@@ -1,15 +1,32 @@
 (function () {
     'use strict';
 
-    var Cats = [];
+    var Model = {
+        Cats: [],
 
-    function Cat(catName, catImage, _id) {
-        return {
-            id: 'cat' + _id,
-            name: catName,
-            image: catImage,
-            score: 0
+        Cat: function (catName, catImage, _id) {
+            return {
+                id: 'cat' + _id,
+                name: catName,
+                image: catImage,
+                score: 0
+            }
+        },
+
+        getCats: function () {
+            return this.Cats;
+        },
+
+        init: function () {
+            var _id = 0;
+            var totalCats = 4;
+            var catImagesLinks = ['images/cat1.jpg', 'images/cat2.jpg', 'images/cat3.jpg', 'images/cat4.jpg'];
+            var catNames = ['Cat One', 'Cat Two', 'Cat Three', 'Cat Four'];
+            for (var i = 0; i < totalCats; i++) {
+                this.Cats.push(new this.Cat(catNames[i], catImagesLinks[i], _id++));
+            }
         }
+
     }
 
     var View = {
@@ -50,24 +67,14 @@
     }
 
     var Controller = {
-        createCats: function () {
-            var _id = 0;
-            var totalCats = 4;
-            var catImagesLinks = ['images/cat1.jpg', 'images/cat2.jpg', 'images/cat3.jpg', 'images/cat4.jpg'];
-            var catNames = ['Cat One', 'Cat Two', 'Cat Three', 'Cat Four'];
-            for (var i = 0; i < totalCats; i++) {
-                Cats.push(new Cat(catNames[i], catImagesLinks[i], _id++));
-            }
-        },
-
         getCats: function () {
-            return Cats;
+            return Model.getCats();
         },
 
         getCatById: function (id) {
-            return Cats.filter(function (cat) {
+            return Model.getCats().find(function (cat) {
                 return cat.id === id;
-            })[0];
+            });
         },
 
         updateScoreOfCat: function (cat) {
@@ -75,7 +82,7 @@
         },
 
         init: function () {
-            this.createCats();
+            Model.init();
             View.init();
         }
     }
