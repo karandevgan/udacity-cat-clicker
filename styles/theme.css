@@ -1,0 +1,76 @@
+html, body {
+    width: 100%;
+    margin: 0;
+}
+
+header {
+    text-align: center;
+}
+
+.hide-elem {
+    display: none !important;
+}
+
+.catselector {
+    display: flex;
+    flex-direction: row;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    flex-wrap: wrap;
+}
+
+.catselector-img {
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.catselector-img img {
+    width: 100%;
+    height: 100%;
+}
+
+.main {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.main-col-1 {
+    width: 20%;
+}
+
+.main-col-2 {
+    width: 50%;
+}
+
+.main-cats-block {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-height: 400px;
+}
+
+.main-cats-block-catblock {
+    width: calc(100% - 20px);
+    margin: 10px;
+    min-width: 300px;
+    position: relative;
+}
+
+.cat-name {
+    position: absolute;
+    left: 20px;
+    color: #fff;
+    text-shadow:0px 0px 10px #000;
+}
+
+.main-cat {
+    width: 100%;
+    height: 300px;
+}
