@@ -1,39 +1,7 @@
 (function () {
     'use strict';
 
-    var Cats = getCats();
-
-    function initializeList() {
-        var ThumbnailTemplate = $('script[data-template="cat-thumbnail"]').html();
-        Cats.forEach(function (cat) {
-            var HTMLThumbnailTemplate = ThumbnailTemplate.replace('{{cat.image}}', cat.image)
-                .replace('{{cat.name}}', cat.id);
-            $('.catselector').append(HTMLThumbnailTemplate);
-            $('[name="' + cat.id + '"]').click(function () {
-                $('.main').removeClass('hide-elem');
-                $('.cat-name').text(cat.name);
-                $('#score').text(cat.score);
-                var properties = {
-                    'src': cat.image,
-                    'id': cat.id
-                }
-                $('.main-cat').prop(properties);
-                $('.main').removeClass('hide-elem');
-            });
-        });
-    }
-
-    function getCats() {
-        var _id = 0;
-        var totalCats = 4;
-        var catImagesLinks = ['images/cat1.jpg', 'images/cat2.jpg', 'images/cat3.jpg', 'images/cat4.jpg'];
-        var catNames = ['Cat One', 'Cat Two', 'Cat Three', 'Cat Four'];
-        var cats = [];
-        for (var i = 0; i < totalCats; i++) {
-            cats.push(new Cat(catNames[i], catImagesLinks[i], _id++));
-        }
-        return cats;
-    }
+    var Cats = [];
 
     function Cat(catName, catImage, _id) {
         return {
@@ -44,19 +12,74 @@
         }
     }
 
-    function init() {
-        initializeList();
-        var catElemMain = $('.main-cat');
-        catElemMain.click(function () {
-            var catId = catElemMain.prop('id');
-            var selectedCat = Cats.filter(function (cat) {
-                return cat.id === catId;
-            })[0];
-            selectedCat.score++;
-            $('#score').text(selectedCat.score);
-        });
+    var View = {
+        initializeCatThumbnails: function () {
+            var ThumbnailTemplate = $('script[data-template="cat-thumbnail"]').html();
+            Controller.getCats().forEach(function (cat) {
+                var HTMLThumbnailTemplate = ThumbnailTemplate.replace('{{cat.image}}', cat.image)
+                    .replace('{{cat.name}}', cat.id);
+                $('.catselector').append(HTMLThumbnailTemplate);
+                $('[name="' + cat.id + '"]').click(function () {
+                    $('.main').removeClass('hide-elem');
+                    $('.cat-name').text(cat.name);
+                    $('#score').text(cat.score);
+                    var properties = {
+                        'src': cat.image,
+                        'id': cat.id
+                    }
+                    $('.main-cat').prop(properties);
+                    $('.main').removeClass('hide-elem');
+                });
+            });
+        },
+
+        initializeMain: function () {
+            var catElemMain = $('.main-cat');
+            catElemMain.click(function () {
+                var catId = catElemMain.prop('id');
+                var selectedCat = Controller.getCatById(catId);
+                Controller.updateScoreOfCat(selectedCat);
+                $('#score').text(selectedCat.score);
+            });
+        },
+
+        init: function () {
+            this.initializeCatThumbnails();
+            this.initializeMain();
+        }
     }
 
-    init();
+    var Controller = {
+        createCats: function () {
+            var _id = 0;
+            var totalCats = 4;
+            var catImagesLinks = ['images/cat1.jpg', 'images/cat2.jpg', 'images/cat3.jpg', 'images/cat4.jpg'];
+            var catNames = ['Cat One', 'Cat Two', 'Cat Three', 'Cat Four'];
+            for (var i = 0; i < totalCats; i++) {
+                Cats.push(new Cat(catNames[i], catImagesLinks[i], _id++));
+            }
+        },
+
+        getCats: function () {
+            return Cats;
+        },
+
+        getCatById: function (id) {
+            return Cats.filter(function (cat) {
+                return cat.id === id;
+            })[0];
+        },
+
+        updateScoreOfCat: function (cat) {
+            cat.score++;
+        },
+
+        init: function () {
+            this.createCats();
+            View.init();
+        }
+    }
+
+    Controller.init();
 
 })();
