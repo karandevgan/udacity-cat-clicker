@@ -7,7 +7,7 @@ header {
     text-align: center;
 }
 
-.hide-elem {
+.hide-content {
     display: none !important;
 }
 
@@ -45,8 +45,8 @@ header {
     position: relative;
     display: flex;
     flex-direction: row;
-    margin-left: 10%;
-    width: 60%;
+    margin-left: 50px;
+    width: 80%;
 }
 
 .main-col-1 {
@@ -54,7 +54,7 @@ header {
 }
 
 .main-col-2 {
-    width: 50%;
+    width: 80%;
 }
 
 .main-cats-block {
@@ -65,9 +65,8 @@ header {
 }
 
 .main-cats-block-catblock {
-    width: calc(100% - 20px);
     margin: 10px;
-    min-width: 300px;
+    width: 300px;
     position: relative;
 }
 
@@ -81,4 +80,24 @@ header {
 .main-cat {
     width: 100%;
     height: 300px;
+}
+
+.form-block {
+    margin-top: 10%;
+    margin-left: 10px;
+}
+
+.form-control{
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.form-control label {
+    width: 120px;
+}
+
+button {
+    padding: 5px;
+    margin-right: 10px; 
 }

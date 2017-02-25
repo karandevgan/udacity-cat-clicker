@@ -15,7 +15,7 @@
         <section class="catselector">
 
         </section>
-        <section class="main hide-elem">
+        <section class="main">
             <div class="main-col-1">
                 <h3>Score: <span id="score">0</span></h3>
             </div>
@@ -24,12 +24,33 @@
                     <h2 class="cat-name"></h2>
                     <img class="main-cat"></img>
                 </div>
+                <div class="form-block">
+                    <button id="admin-button">Admin</button>
+                    <div id="form-content" class="hide-content">
+                        <div class="form-control">
+                            <label for="cat-name">Name</label>
+                            <input name="cat-name" id="cat-name" type="text" />
+                        </div>
+                        <div class="form-control">
+                            <label for="cat-url">Image URL</label>
+                            <input name="cat-url" id="cat-url" type="url" />
+                        </div>
+                        <div class="form-control">
+                            <label for="cat-score">Score</label>
+                            <input name="cat-score" id="cat-score" type="number" />
+                        </div>
+                        <div class="form-control">
+                            <button id="cancel-button">Cancel</button>
+                            <button id="submit-button">Save</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
     <script type="text/template" data-template="cat-thumbnail">
         <div class="catselector-img">
-            <img src="{{cat.image}}" name="{{cat.name}}">
+            <img src="{{cat.image}}" name="{{cat.id}}" title="{{cat.name}}">
         </div>
     </script>
 
