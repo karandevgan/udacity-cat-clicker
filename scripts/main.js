@@ -99,6 +99,7 @@
                 var newName = this.inputName.val();
                 var newScore = this.inputScore.val();
                 var newURL = this.inputURL.val();
+                this.hide();
                 Controller.updateCurrentCat(newName, newURL, newScore);
                 CatMainView.render();
             }).bind(this));
