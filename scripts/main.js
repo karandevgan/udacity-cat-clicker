@@ -2,8 +2,6 @@
     'use strict';
 
     var Model = {
-        Cats: [],
-
         Cat: function (catName, catImage, _id) {
             return {
                 id: 'cat' + _id,
@@ -13,11 +11,8 @@
             }
         },
 
-        getCats: function () {
-            return this.Cats;
-        },
-
         init: function () {
+            this.Cats = [];
             var _id = 0;
             var totalCats = 4;
             var catImagesLinks = ['images/cat1.jpg', 'images/cat2.jpg', 'images/cat3.jpg', 'images/cat4.jpg'];
@@ -25,44 +20,57 @@
             for (var i = 0; i < totalCats; i++) {
                 this.Cats.push(new this.Cat(catNames[i], catImagesLinks[i], _id++));
             }
-        }
+        },
 
+        getCats: function () {
+            return this.Cats;
+        }
     }
 
-    var View = {
-        initializeCatThumbnails: function () {
-            var ThumbnailTemplate = $('script[data-template="cat-thumbnail"]').html();
-            Controller.getCats().forEach(function (cat) {
-                var HTMLThumbnailTemplate = ThumbnailTemplate.replace('{{cat.image}}', cat.image)
-                    .replace('{{cat.name}}', cat.id);
-                $('.catselector').append(HTMLThumbnailTemplate);
-                $('[name="' + cat.id + '"]').click(function () {
-                    $('.main').removeClass('hide-elem');
-                    $('.cat-name').text(cat.name);
-                    $('#score').text(cat.score);
-                    var properties = {
-                        'src': cat.image,
-                        'id': cat.id
-                    }
-                    $('.main-cat').prop(properties);
-                    $('.main').removeClass('hide-elem');
-                });
-            });
+    var CatListView = {
+        init: function () {
+            this.ThumbnailTemplate = $('script[data-template="cat-thumbnail"]').html();
+            this.catList = $('.catselector');
+            this.render();
         },
 
-        initializeMain: function () {
-            var catElemMain = $('.main-cat');
-            catElemMain.click(function () {
-                var catId = catElemMain.prop('id');
-                var selectedCat = Controller.getCatById(catId);
+        render: function () {
+            Controller.getCats().forEach(function (cat) {
+                var HTMLThumbnailTemplate = this.ThumbnailTemplate.replace('{{cat.image}}', cat.image)
+                    .replace('{{cat.name}}', cat.id);
+                this.catList.append(HTMLThumbnailTemplate);
+                $('[name="' + cat.id + '"]').click(function () {
+                    Controller.setSelectedCat(Controller.getCatById(cat.id));
+                    CatMainView.render();
+                });
+            }, this);
+        }
+    }
+
+    var CatMainView = {
+        init: function () {
+            this.catName = $('.cat-name');
+            this.scoreElem = $('#score');
+            this.mainCat = $('.main-cat');
+            this.mainSection = $('.main');
+            this.mainCat.click((function () {
+                var catId = this.mainCat.prop('id');
+                var selectedCat = Controller.getSelectedCat();
                 Controller.updateScoreOfCat(selectedCat);
                 $('#score').text(selectedCat.score);
-            });
+            }).bind(this));
         },
 
-        init: function () {
-            this.initializeCatThumbnails();
-            this.initializeMain();
+        render: function () {
+            var selectedCat = Controller.getSelectedCat();
+            this.mainSection.removeClass('hide-elem');
+            this.catName.text(selectedCat.name);
+            this.scoreElem.text(selectedCat.score);
+            var properties = {
+                'src': selectedCat.image,
+                'id': selectedCat.id
+            }
+            this.mainCat.prop(properties);
         }
     }
 
@@ -81,9 +89,18 @@
             cat.score++;
         },
 
+        setSelectedCat: function (cat) {
+            this.selectedCat = cat;
+        },
+
+        getSelectedCat: function () {
+            return this.selectedCat;
+        },
+
         init: function () {
             Model.init();
-            View.init();
+            CatListView.init();
+            CatMainView.init();
         }
     }
 
