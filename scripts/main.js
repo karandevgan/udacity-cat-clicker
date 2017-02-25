@@ -4,10 +4,11 @@
     var Cats = getCats();
 
     function initializeList() {
+        var ThumbnailTemplate = $('script[data-template="cat-thumbnail"]').html();
         Cats.forEach(function (cat) {
-            var HTMLImg = '<img src="' + cat.image + '" name="' + cat.id + '">'
-            var HTMLdiv = '<div class="catselector-img">' + HTMLImg + '</div>';
-            $('.catselector').append(HTMLdiv);
+            var HTMLThumbnailTemplate = ThumbnailTemplate.replace('{{cat.image}}', cat.image)
+                .replace('{{cat.name}}', cat.id);
+            $('.catselector').append(HTMLThumbnailTemplate);
             $('[name="' + cat.id + '"]').click(function () {
                 $('.main').removeClass('hide-elem');
                 $('.cat-name').text(cat.name);
@@ -57,5 +58,5 @@
     }
 
     init();
-    
+
 })();
