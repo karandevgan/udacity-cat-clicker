@@ -11,21 +11,22 @@
     <header>
         <h2>Cat Clicker</h2>
     </header>
-    <section class="catselector">
+    <div class="content">
+        <section class="catselector">
 
-    </section>
-    <section class="main hide-elem">
-        <div class="main-col-1">
-            <h3>Score: <span id="score">0</span></h3>
-        </div>
-        <div class="main-col-2 main-cats-block">
-            <div class="main-cats-block-catblock">
-                <h2 class="cat-name"></h2>
-                <img class="main-cat"></img>
+        </section>
+        <section class="main hide-elem">
+            <div class="main-col-1">
+                <h3>Score: <span id="score">0</span></h3>
             </div>
-        </div>
-    </section>
-
+            <div class="main-col-2 main-cats-block">
+                <div class="main-cats-block-catblock">
+                    <h2 class="cat-name"></h2>
+                    <img class="main-cat"></img>
+                </div>
+            </div>
+        </section>
+    </div>
     <script type="text/template" data-template="cat-thumbnail">
         <div class="catselector-img">
             <img src="{{cat.image}}" name="{{cat.name}}">
